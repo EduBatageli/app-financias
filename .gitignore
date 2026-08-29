@@ -1,0 +1,50 @@
+# Dependências
+node_modules/
+.pnp
+.pnp.*
+.yarn/cache/
+.yarn/install-state.gz
+
+# Builds, caches e cobertura
+dist/
+build/
+coverage/
+.vite/
+*.tsbuildinfo
+*.tsbuildinfo.*
+
+# Variáveis e segredos locais
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Logs e arquivos temporários
+tmp/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tmp
+*.temp
+.*.uploading
+
+# PDFs enviados e dados locais
+backend/storage/pdfs/*
+!backend/storage/pdfs/.gitignore
+backups/
+*.dump
+*.sql.gz
+
+# IDE e sistema operacional
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Relatórios de ferramentas
+.eslintcache
+.nyc_output/

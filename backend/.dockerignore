@@ -1,0 +1,5 @@
+node_modules
+storage/pdfs/*
+!storage/pdfs/.gitignore
+.DS_Store
+*.log

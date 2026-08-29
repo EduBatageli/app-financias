@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fluxo}
+      POSTGRES_USER: ${POSTGRES_USER:-fluxo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fluxo_dev}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  backend:
+    build:
+      context: ./backend
+    environment:
+      NODE_ENV: production
+      PORT: 3333
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: ${POSTGRES_DB:-fluxo}
+      PGUSER: ${POSTGRES_USER:-fluxo}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-fluxo_dev}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+      PDF_STORAGE_DIR: /app/storage/pdfs
+      OCR_MAX_PAGES: 3
+      OCR_DPI: 200
+      OCR_TIMEOUT_MS: 60000
+    volumes:
+      - ${PDF_STORAGE_PATH:-./backend/storage/pdfs}:/app/storage/pdfs
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-3333}:3333"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+
+volumes:
+  postgres_data:

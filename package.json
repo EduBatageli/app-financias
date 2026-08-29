@@ -1,0 +1,15 @@
+{
+  "name": "fluxo-financeiro",
+  "version": "1.0.0",
+  "description": "MVP mobile-first para controle financeiro pessoal",
+  "private": true,
+  "scripts": {
+    "dev": "docker compose up --build",
+    "start": "docker compose up -d",
+    "stop": "docker compose down",
+    "logs": "docker compose logs -f"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "type": "module"
+}
